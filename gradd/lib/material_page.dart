@@ -1,29 +1,24 @@
 import 'package:flutter/material.dart';
 
-class MainPage extends StatelessWidget {
+class MaterialPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Homepage')),
+      appBar: AppBar(title: Text('Reading Material')),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Welcome back, <name>!',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text('What can we interest you in?', style: TextStyle(fontSize: 16)),
+            Text('Loading', style: TextStyle(fontSize: 22)),
             SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange[200], // Matching UI color
+                backgroundColor: Colors.orange[200],
                 minimumSize: Size(double.infinity, 50),
               ),
               onPressed: () {},
-              child: Text('QRCE Portal', style: TextStyle(fontSize: 18)),
+              child: Text('Reading Material', style: TextStyle(fontSize: 18)),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -32,7 +27,7 @@ class MainPage extends StatelessWidget {
                 minimumSize: Size(double.infinity, 50),
               ),
               onPressed: () {},
-              child: Text('Conduct a Feasibility Study', style: TextStyle(fontSize: 18)),
+              child: Text('Regulations', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),
