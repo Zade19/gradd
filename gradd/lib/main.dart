@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
+import 'database.dart';
 import 'sign_in_page.dart';
 import 'sign_up_page.dart';
 import 'sign_up_form_page.dart';
 import 'main_page.dart';
 
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Back4app.initializeParse();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

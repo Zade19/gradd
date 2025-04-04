@@ -1,6 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
-class SignUpFormPage extends StatelessWidget {
+class SignUpFormPage extends StatefulWidget {
+  @override
+  SignUpFormPageState createState() => SignUpFormPageState();
+}
+Future<void> fetchQuestions() async{
+
+}
+class SignUpFormPageState extends State<SignUpFormPage> {
+  List<ParseObject> questions = [];
+  int currentQuestionIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchQuestions();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
