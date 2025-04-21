@@ -5,7 +5,6 @@ import 'sign_up_page.dart';
 import 'sign_up_form_page.dart';
 import 'main_page.dart';
 import 'legal_page.dart';
-import 'material_page.dart';
 
 
 Future<void> main() async {
@@ -42,6 +41,8 @@ class MyApp extends StatelessWidget {
   }
 }
 class MainNavigator extends StatefulWidget {
+  const MainNavigator({super.key});
+
   @override
   _MainNavigatorState createState() => _MainNavigatorState();
 }

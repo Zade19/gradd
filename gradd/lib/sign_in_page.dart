@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
+
   @override
   SignInPageState createState() => SignInPageState();
 }

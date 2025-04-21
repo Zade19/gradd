@@ -1,5 +1,4 @@
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
-import 'dart:convert';
 
 class Back4app{
   static const String _baseUrl = "https://parseapi.back4app.com/classes/";
