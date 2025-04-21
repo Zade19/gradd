@@ -11,7 +11,9 @@ class Back4app{
     const String serverUrl = 'https://parseapi.back4app.com';
 
     await Parse().initialize(appId, serverUrl, clientKey: clientKey, autoSendSessionId: true);
-
+    final installation = await ParseInstallation.currentInstallation();
+    installation.subscribeToChannel('push');
+    await installation.save();
 
   }
 

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'database.dart';
 import 'sign_in_page.dart';
@@ -8,10 +9,14 @@ import 'legal_page.dart';
 import 'material_page.dart';
 
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Back4app.initializeParse();
   runApp(MyApp());
+}
+void registerNotifications() async{
+//  FirebaseMessaging messaging = messaging.instance;
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +40,7 @@ class MyApp extends StatelessWidget {
       home: SignInPage(),
       routes: {
         '/signup': (context) => SignUpPage(),
-        '/signupform': (context) => SignUpFormPage(),
+        '/signupform': (context) => QuestionPage(),
         '/mainpage': (context) => MainPage(),
       },
     );
