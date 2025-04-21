@@ -14,8 +14,6 @@ class EducationalPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Loading', style: TextStyle(fontSize: 22)),
-            SizedBox(height: 30),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.orange[200],
