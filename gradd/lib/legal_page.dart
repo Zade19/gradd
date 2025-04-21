@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class LegalPage extends StatelessWidget {
+  const LegalPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +18,7 @@ class LegalPage extends StatelessWidget {
                 minimumSize: Size(double.infinity, 50),
               ),
               onPressed: () {},
-              child: Text('Reading Material', style: TextStyle(fontSize: 18)),
+              child: Text('Laws and Regulations', style: TextStyle(fontSize: 18)),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -27,8 +29,6 @@ class LegalPage extends StatelessWidget {
               onPressed: () {},
               child: Text('Tax Calculator', style: TextStyle(fontSize: 18)),
             ),
-            SizedBox(height: 20),
-            Text('T3K', style: TextStyle(fontSize: 16)),
           ],
         ),
       ),

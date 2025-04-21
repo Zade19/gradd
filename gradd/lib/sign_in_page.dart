@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
+
   @override
   SignInPageState createState() => SignInPageState();
 }
@@ -22,6 +24,7 @@ class SignInPageState extends State<SignInPage> {
     if (response.success && response.results!.isNotEmpty) {
       print('Login successful!');
       Navigator.pushNamed(context, '/mainpage');
+      //todo:add the code to go  to nextpage if login is successful here
     } else {
       print('Login failed!');
       //todo:add the code for the fail whatever it is here

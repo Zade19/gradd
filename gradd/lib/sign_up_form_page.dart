@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class QuestionPage extends StatefulWidget {
+class SignUpFormPage extends StatefulWidget {
+  const SignUpFormPage({super.key});
+
   @override
   QuestionPageState createState() => QuestionPageState();
 }
+Future<void> fetchQuestions() async{
 
 class QuestionPageState extends State<QuestionPage> {
   List<ParseObject> allQuestions = [];

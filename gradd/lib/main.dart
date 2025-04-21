@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'database.dart';
 import 'sign_in_page.dart';
@@ -6,7 +5,9 @@ import 'sign_up_page.dart';
 import 'sign_up_form_page.dart';
 import 'main_page.dart';
 import 'legal_page.dart';
-import 'material_page.dart';
+import 'educational_page.dart';
+import 'qrce_page.dart';
+import 'preferences_page.dart';
 
 
 
@@ -40,13 +41,15 @@ class MyApp extends StatelessWidget {
       home: SignInPage(),
       routes: {
         '/signup': (context) => SignUpPage(),
-        '/signupform': (context) => QuestionPage(),
-        '/mainpage': (context) => MainPage(),
+        '/signupform': (context) => SignUpFormPage(),
+        '/home': (context) => MainNavigator(),
       },
     );
   }
 }
 class MainNavigator extends StatefulWidget {
+  const MainNavigator({super.key});
+
   @override
   _MainNavigatorState createState() => _MainNavigatorState();
 }
@@ -55,8 +58,11 @@ class _MainNavigatorState extends State<MainNavigator> {
   int _currentIndex = 2;
 
   final List<Widget> _pages = [
+    EducationalPage(),
+    QRCEPage(),
     MainPage(),
     LegalPage(),
+    PreferencesPage(),
   ];
 
   @override
