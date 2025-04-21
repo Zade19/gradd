@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class MaterialPage extends StatelessWidget {
-  const MaterialPage({super.key});
+class EducationalPage extends StatelessWidget {
+  const EducationalPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       
-      appBar: AppBar(title: Text('Reading Material')),
+      appBar: AppBar(title: Text('Educational content')),
       body: Padding(
         padding: EdgeInsets.all(20.0),
         child: Column(
@@ -22,7 +22,7 @@ class MaterialPage extends StatelessWidget {
                 minimumSize: Size(double.infinity, 50),
               ),
               onPressed: () {},
-              child: Text('Reading Material', style: TextStyle(fontSize: 18)),
+              child: Text('What you need to know', style: TextStyle(fontSize: 18)),
             ),
             SizedBox(height: 20),
             ElevatedButton(
@@ -31,7 +31,7 @@ class MaterialPage extends StatelessWidget {
                 minimumSize: Size(double.infinity, 50),
               ),
               onPressed: () {},
-              child: Text('Regulations', style: TextStyle(fontSize: 18)),
+              child: Text('Common mistakes to avoid', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),

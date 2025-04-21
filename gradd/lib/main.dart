@@ -5,6 +5,9 @@ import 'sign_up_page.dart';
 import 'sign_up_form_page.dart';
 import 'main_page.dart';
 import 'legal_page.dart';
+import 'educational_page.dart';
+import 'qrce_page.dart';
+import 'preferences_page.dart';
 
 
 Future<void> main() async {
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/signup': (context) => SignUpPage(),
         '/signupform': (context) => SignUpFormPage(),
-        '/mainpage': (context) => MainPage(),
+        '/home': (context) => MainNavigator(),
       },
     );
   }
@@ -51,8 +54,11 @@ class _MainNavigatorState extends State<MainNavigator> {
   int _currentIndex = 2;
 
   final List<Widget> _pages = [
+    EducationalPage(),
+    QRCEPage(),
     MainPage(),
     LegalPage(),
+    PreferencesPage(),
   ];
 
   @override

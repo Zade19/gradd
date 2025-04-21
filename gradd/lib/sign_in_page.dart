@@ -23,7 +23,7 @@ class SignInPageState extends State<SignInPage> {
     final response = await login.query();
     if (response.success && response.results!.isNotEmpty) {
       print('Login successful!');
-      Navigator.pushNamed(context, '/mainpage');
+      Navigator.pushReplacementNamed(context, '/home');
       //todo:add the code to go  to nextpage if login is successful here
     } else {
       print('Login failed!');
