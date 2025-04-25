@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "668756640951",
+    "project_id": "bni-651cc",
+    "storage_bucket": "bni-651cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:668756640951:android:281c201bdcb2c07708b932",
+        "android_client_info": {
+          "package_name": "com.example.gradd"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdgGxADaIinzgVp92ErdWG-X1-GQq739M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
