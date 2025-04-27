@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:gradd/services/firebase_messaging.dart';
 
-class MainPage extends StatelessWidget {
+class MainPage extends StatefulWidget {
   const MainPage({super.key});
 
+  @override
+  State<MainPage> createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> {
+  @override
+  void initState() {
+    requestNotificationPermission();
+    print('done');
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradd/main_page.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class SignInPage extends StatefulWidget {
@@ -23,7 +24,8 @@ class SignInPageState extends State<SignInPage> {
     final response = await login.query();
     if (response.success && response.results!.isNotEmpty) {
       print('Login successful!');
-      Navigator.pushNamed(context, '/mainpage');
+      // Navigator.pushNamed(context, '/mainpage');
+      Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage(),));
       //todo:add the code to go  to nextpage if login is successful here
     } else {
       print('Login failed!');

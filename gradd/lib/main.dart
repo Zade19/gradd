@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'database.dart';
 import 'sign_in_page.dart';
@@ -13,12 +14,11 @@ import 'preferences_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   await Back4app.initializeParse();
   runApp(MyApp());
 }
-void registerNotifications() async{
-//  FirebaseMessaging messaging = messaging.instance;
-}
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
