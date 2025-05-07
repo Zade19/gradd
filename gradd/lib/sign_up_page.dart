@@ -35,7 +35,7 @@ class SignUpPageState extends State<SignUpPage> {
     if (password != confirmPassword) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Passwords do not match!")),
-      );//todo: make a different method to notify the user
+      );
       return;
     }
 
