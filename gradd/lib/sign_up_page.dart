@@ -23,32 +23,40 @@ class SignUpPageState extends State<SignUpPage> {
     final firstName = firstNameController.text.trim();
     final lastName = lastNameController.text.trim();
 
-
-
-    if (username.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("All fields are required.")),
-      );
+    // Basic validation
+    if (username.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Username is required.")));
       return;
-    }//todo:make it so it shows a message for each field
-
+    }
+    if (firstName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("First name is required.")));
+      return;
+    }
+    if (lastName.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Last name is required.")));
+      return;
+    }
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Email is required.")));
+      return;
+    }
+    if (password.isEmpty || confirmPassword.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Password is required.")));
+      return;
+    }
     if (password != confirmPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Passwords do not match!")),
-      );
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Passwords do not match!")));
       return;
     }
 
-    final user = ParseObject('user')
-      ..set('username', username)
-      ..set('email', email)
-      ..set('password', password)
-      ..set('type', 'user')
+    final user = ParseUser(username, password, email)
       ..set('firstName', firstName)
-      ..set('lastName', lastName);
+      ..set('lastName', lastName)
+      ..set('type', 'user');
 
     try {
-      final response = await user.save();
+      final response = await user.signUp();
+
       if (response.success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Account created successfully!")),
@@ -56,18 +64,16 @@ class SignUpPageState extends State<SignUpPage> {
         Navigator.pushNamed(context, '/signupform');
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Error: ${response.error!.message}")),
+          SnackBar(content: Text("Error: ${response.error?.message}")),
         );
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: $error")),
       );
-      //todo:pick a way to display the message
     }
-
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
