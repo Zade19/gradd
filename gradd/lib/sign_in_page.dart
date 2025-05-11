@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradd/main_page.dart';
+import 'package:gradd/sign_up_form_page.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -107,7 +108,10 @@ class SignInPageState extends State<SignInPage> {
               child: Text('Login'),
             ),
             TextButton(
-              onPressed: () => Navigator.pushNamed(context, '/signup'),
+              onPressed: () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => SignUpFormPage()),
+              ),
               child: Text('Sign up'),
             ),
           ],

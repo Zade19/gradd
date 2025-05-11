@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gradd/sign_up_form_page.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -61,7 +62,10 @@ class SignUpPageState extends State<SignUpPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Account created successfully!")),
         );
-        Navigator.pushNamed(context, '/signupform');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SignUpFormPage()),
+        );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error: ${response.error?.message}")),
