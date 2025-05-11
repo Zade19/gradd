@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradd/services/firebase_messaging.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -9,11 +10,18 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  String username='';
   @override
   void initState() {
     requestNotificationPermission();
-    print('done');
     super.initState();
+    _getUsername();
+  }
+  Future<void> _getUsername() async {
+    final user = await ParseUser.currentUser() as ParseUser;
+    setState(() {
+      username = user.get<String>('username') ?? 'error not logged in';
+    });
   }
   @override
   Widget build(BuildContext context) {
@@ -25,7 +33,7 @@ class _MainPageState extends State<MainPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Welcome back, <name>!',
+              'Welcome back, $username!',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),

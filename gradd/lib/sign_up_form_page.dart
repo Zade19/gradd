@@ -149,6 +149,16 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
     }
   }
    _submit() async {
+    for(int i = 0; i < _questionsData.length; i++){
+      if(_questionsData[i].get<bool>('requirment')! && _answers[i]==null&&_images[i]==null){
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text('Please answer all required questions.'),
+          backgroundColor: Colors.red,
+        ));
+        return;
+      }
+
+    }
     final user = await ParseUser.currentUser() as ParseUser;
     for(int i = 0; i < _questionsData.length; i++) {
       if (_questionsData[i].get<String>('questionType') == 'image') {
@@ -168,12 +178,11 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
         ..set('username', user)
         ..set('answer', _answers[i]);
       final response = await answerObject.save();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
-      );
-
     }
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MainPage()),
+    );
   }
   @override
   Widget build(BuildContext context) {
@@ -182,7 +191,7 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up Questionnaire'),
+        title: Text('Please answer a few questions about yourself.'),
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(8),
           child: Padding(
