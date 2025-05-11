@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'database.dart';
 import 'sign_in_page.dart';
 import 'sign_up_page.dart';
@@ -16,6 +17,11 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Back4app.initializeParse();
+  //log out user on app startup
+  final user = await ParseUser.currentUser();
+  if (user != null) {
+    await user.logout();
+  }
   runApp(MyApp());
 }
 

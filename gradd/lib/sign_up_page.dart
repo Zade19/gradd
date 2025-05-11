@@ -62,6 +62,8 @@ class SignUpPageState extends State<SignUpPage> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Account created successfully!")),
         );
+        final user = ParseUser(username, password, null);
+        final response = await user.login();
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => SignUpFormPage()),

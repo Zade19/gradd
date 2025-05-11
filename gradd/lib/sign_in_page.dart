@@ -50,17 +50,31 @@ class SignInPageState extends State<SignInPage> {
     final response = await user.login();
 
     if (response.success) {
-      // Navigate to MainPage on success
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
-      );
+
 
       // Remember the user if they want to stay logged in
       if (rememberMe) {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('loggedInUsername', username);
         await storage.write(key: 'password', value: password);
+      }
+      final signupQuery = QueryBuilder<ParseObject>(ParseObject('answer'))
+        ..whereEqualTo('username', ParseObject('_User')..objectId = user.objectId);
+      final response = await signupQuery.query();
+      // Navigate to MainPage
+      print(response.results);
+      if(response.success&&response.results!=null)
+        {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => MainPage()),
+          );
+        }
+      else{
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SignUpFormPage()),
+        );
       }
     } else {
       // Show an error message if login failed
