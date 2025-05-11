@@ -33,7 +33,11 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
         _isLoading = false;
       });
 
-    }
+    } else {
+      print('Error: ${questionResponse.error?.message}');
+      setState(() {
+        _isLoading = false;
+      });
     }
 
     for(int i=0;i<questionResponse.results!.length;i++)
