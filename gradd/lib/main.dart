@@ -4,7 +4,6 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'database.dart';
 import 'sign_in_page.dart';
 import 'sign_up_page.dart';
-import 'sign_up_form_page.dart';
 import 'main_page.dart';
 import 'legal_page.dart';
 import 'educational_page.dart';
