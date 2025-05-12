@@ -74,7 +74,7 @@ class SignInPageState extends State<SignInPage> {
       else{
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => SignUpPage()),
+          MaterialPageRoute(builder: (context) => SignUpFormPage()),
         );
       }
     } else {
@@ -125,7 +125,7 @@ class SignInPageState extends State<SignInPage> {
             TextButton(
               onPressed: () => Navigator.pushReplacement(
                 context,
-                MaterialPageRoute(builder: (context) => SignUpFormPage()),
+                MaterialPageRoute(builder: (context) => SignUpPage()),
               ),
               child: Text('Sign up'),
             ),
