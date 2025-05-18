@@ -54,7 +54,7 @@ class _MainPageState extends State<MainPage> {
                 minimumSize: Size(double.infinity, 50),
               ),
               onPressed: () {},
-              child: Text('Conduct a Feasibility Study', style: TextStyle(fontSize: 18)),
+              child: Text('Tax Calculator', style: TextStyle(fontSize: 18)),
             ),
           ],
         ),
