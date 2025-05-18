@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gradd/main_page.dart';
-import 'package:gradd/sign_up_form_page.dart';
+import 'package:gradd/form_page.dart';
 import 'package:gradd/sign_up_page.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -74,7 +74,7 @@ class SignInPageState extends State<SignInPage> {
       else{
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => SignUpFormPage()),
+          MaterialPageRoute(builder: (context) => formPage(formType: 'signup',)),
         );
       }
     } else {
