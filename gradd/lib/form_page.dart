@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -5,18 +6,22 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 import 'main_page.dart';
 
-class SignUpFormPage extends StatefulWidget {
+class formPage extends StatefulWidget {
   @override
-  _SignUpFormPageState createState() => _SignUpFormPageState();
+  final String formType;
+  formPage({required this.formType});
+  _formPageState createState() => _formPageState();
 }
 
-class _SignUpFormPageState extends State<SignUpFormPage> {
+class _formPageState extends State<formPage> {
   List<ParseObject> _questionsData = [];
   Map<int, List<String>> questionChoices = {};
   final Map<int, String> _answers = {};
   final Map<int, File?> _images = {};
   int _currentPage = 0;
   bool _isLoading = true;
+  bool _isSubmitting = false;
+
 
   @override
   void initState() {
@@ -26,7 +31,7 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
 
   Future<void> fetchQuestions() async {
     final questionQuery =
-    QueryBuilder<ParseObject>(ParseObject('question'))..whereEqualTo('formType', 'signup');
+    QueryBuilder<ParseObject>(ParseObject('question'))..whereEqualTo('formType', widget.formType);
 
     final questionResponse = await questionQuery.query();
 
@@ -82,11 +87,11 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
               context: context,
               initialDate: DateTime.now(),
               firstDate: DateTime(1900),
-              lastDate: DateTime(2100),
+              lastDate: DateTime.now(),
             );
             if (picked != null) {
               setState(() {
-                _answers[questionNumber] = picked.toIso8601String();
+                _answers[questionNumber] = picked.toIso8601String().split('T')[0];
               });
             }
           },
@@ -108,11 +113,15 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
             ElevatedButton(
               child: Text(_images[questionNumber] != null ? 'Change Image' : 'Upload Image'),
               onPressed: () async {
+
                 final picked = await ImagePicker().pickImage(source: ImageSource.gallery);
                 if (picked != null) {
+                final imageFile = File(picked.path);
+                final bytes = await imageFile.readAsBytes();
+                final base64Image = base64Encode(bytes);
+
                   setState(() {
-                    _images[questionNumber] = File(picked.path);
-                    _answers[questionNumber] = picked.path;
+                    _answers[questionNumber] = base64Image;
                   });
                 }
               },
@@ -149,7 +158,12 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
     }
   }
    _submit() async {
-    for(int i = 0; i < _questionsData.length; i++){
+     if (_isSubmitting) return;
+     setState(() {
+       _isSubmitting = true;
+       _isLoading=true;
+     });
+     for(int i = 0; i < _questionsData.length; i++){
       if(_questionsData[i].get<bool>('requirment')! && _answers[i]==null&&_images[i]==null){
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('Please answer all required questions.'),
@@ -157,22 +171,13 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
         ));
         return;
       }
-
+      setState(() {
+        _isSubmitting = false;
+        _isLoading =false;
+      });
     }
     final user = await ParseUser.currentUser() as ParseUser;
     for(int i = 0; i < _questionsData.length; i++) {
-      if (_questionsData[i].get<String>('questionType') == 'image') {
-        final file = _images[i];
-        if (file != null) {
-          final parseFile = ParseFile(file);
-          final fileResponse = await parseFile.save();
-          if (fileResponse.success) {
-            _answers[i]= parseFile.url!;
-          } else {
-            continue;
-          }
-        }
-      }
       final answerObject = ParseObject('answer')
         ..set('questionID', ParseObject('question')..objectId = _questionsData[i].objectId)
         ..set('username', user)
@@ -251,9 +256,19 @@ class _SignUpFormPageState extends State<SignUpFormPage> {
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: _submit,
-                  child: Text('Submit'),
-                )
+                  onPressed: _isSubmitting ? null : _submit,
+                  child: _isSubmitting
+                      ? SizedBox(
+                    height: 16,
+                    width: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: Colors.white,
+                    ),
+                  )
+                      : Text('Submit'),
+                ),
+
 
               ],
             ),

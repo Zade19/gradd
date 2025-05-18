@@ -62,3 +62,14 @@ ThemeData buildAppTheme() {
     ),
   );
 }
+
+ThemeData buildDarkTheme() {
+  final base = ThemeData.dark(useMaterial3: true);
+  return base.copyWith(
+    colorScheme: base.colorScheme.copyWith(
+      primary: const Color(0xFFFFA94D),
+      secondary: const Color(0xFFF7C288),
+    ),
+    textTheme: GoogleFonts.poppinsTextTheme(base.textTheme),
+  );
+}

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gradd/sign_up_form_page.dart';
+import 'package:gradd/form_page.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -66,7 +66,7 @@ class SignUpPageState extends State<SignUpPage> {
         final response = await user.login();
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => SignUpFormPage()),
+          MaterialPageRoute(builder: (context) => formPage(formType: 'signup',)),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
