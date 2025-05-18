@@ -9,8 +9,8 @@ import 'legal_page.dart';
 import 'educational_page.dart';
 import 'qrce_page.dart';
 import 'preferences_page.dart';
-
-
+import 'root_nav.dart';
+import 'ui/theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,22 +32,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Auth',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        inputDecorationTheme: InputDecorationTheme(
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide.none,
-          ),
-        ),
-      ),
       home: SignInPage(),
+      theme: buildAppTheme(),
       routes: {
         '/signup': (context) => SignUpPage(),
         '/home': (context) => MainNavigator(),
-
+        '/home': (context) => const RootNav(),
       },
     );
   }

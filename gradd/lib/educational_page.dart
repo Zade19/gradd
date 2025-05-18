@@ -5,9 +5,8 @@ class EducationalPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
 
-      
+    return Scaffold(
       appBar: AppBar(title: Text('Educational content')),
       body: Padding(
         padding: EdgeInsets.all(20.0),

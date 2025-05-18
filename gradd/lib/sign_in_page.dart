@@ -70,12 +70,14 @@ class SignInPageState extends State<SignInPage> {
             context,
             MaterialPageRoute(builder: (context) => MainPage()),
           );
+          Navigator.pushReplacementNamed(context, '/home');
         }
       else{
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => SignUpFormPage()),
         );
+        Navigator.pushReplacementNamed(context, '/home');
       }
     } else {
       // Show an error message if login failed
