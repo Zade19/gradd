@@ -35,6 +35,7 @@ class SignInPageState extends State<SignInPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
+  bool forgotpassword = false;
   Future<void> _login() async {
     final userNameOrEmail = usernameController.text.trim();
     final password        = passwordController.text.trim();
@@ -116,6 +117,15 @@ class SignInPageState extends State<SignInPage> {
                   onChanged: (bool? value) {
                     setState(() {
                       rememberMe = value ?? false;
+                    });
+                  },
+                ),
+                Text('Forgot password?'),
+                Checkbox(
+                  value: forgotpassword,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      forgotpassword = value ?? false;
                     });
                   },
                 ),
