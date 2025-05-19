@@ -5,6 +5,7 @@ import 'package:gradd/sign_up_page.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 final storage = FlutterSecureStorage();
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -35,57 +36,59 @@ class SignInPageState extends State<SignInPage> {
   final TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
   Future<void> _login() async {
-    final username = usernameController.text.trim();
-    final password = passwordController.text.trim();
+    final userNameOrEmail = usernameController.text.trim();
+    final password        = passwordController.text.trim();
 
-    if (username.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please enter both username and password")),
-      );
+    if (userNameOrEmail.isEmpty || password.isEmpty) {
+      _snack('Please enter both fields');
       return;
     }
 
-    final user = ParseUser(username, password, null);
 
-    // Attempt to login with ParseUser
-    final response = await user.login();
-
-    if (response.success) {
-
-
-      // Remember the user if they want to stay logged in
-      if (rememberMe) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('loggedInUsername', username);
-        await storage.write(key: 'password', value: password);
+    String username = userNameOrEmail;
+    if (userNameOrEmail.contains('@')) {
+      final q = QueryBuilder<ParseUser>(ParseUser.forQuery())
+        ..whereEqualTo('email', userNameOrEmail);
+      final r = await q.query();
+      if (r.success && r.results != null && r.results!.isNotEmpty) {
+        username = (r.results!.first as ParseUser).username!;
+      } else {
+        _snack('No account found for that e-mail');
+        return;
       }
-      final signupQuery = QueryBuilder<ParseObject>(ParseObject('answer'))
-        ..whereEqualTo('username', ParseObject('_User')..objectId = user.objectId);
-      final response = await signupQuery.query();
-      // Navigate to MainPage
-      print(response.results);
-      if(response.success&&response.results!=null)
-        {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => MainPage()),
-          );
-          Navigator.pushReplacementNamed(context, '/home');
-        }
-      else{
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => formPage(formType: 'signup',)),
-        );
-        Navigator.pushReplacementNamed(context, '/home');
-      }
+    }
+
+    final loginRes = await ParseUser(username, password, null).login();
+    if (!loginRes.success) {
+      _snack(loginRes.error?.message ?? 'Login failed');
+      return;
+    }
+
+    // ✅  logged-in → now run the “answer” query just like before
+    final signupQuery = QueryBuilder<ParseObject>(ParseObject('answer'))
+      ..whereEqualTo('username', ParseObject('_User')..objectId = loginRes.result.objectId);
+
+    final answerRes = await signupQuery.query();
+
+    if (rememberMe) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString('loggedInUsername', username);
+      await storage.write(key: 'password', value: password);
+    }
+
+    if (answerRes.success && answerRes.results != null) {
+      Navigator.pushReplacementNamed(context, '/home');
     } else {
-      // Show an error message if login failed
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Incorrect login information")),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => formPage(formType: 'signup')),
       );
     }
   }
+
+  void _snack(String msg) =>
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+
 
   @override
   Widget build(BuildContext context) {
