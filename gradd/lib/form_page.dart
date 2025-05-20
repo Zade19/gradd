@@ -68,8 +68,6 @@ class _formPageState extends State<formPage> {
 
   Widget buildQuestionField(String questionType, int questionNumber) {
     switch (questionType) {
-
-
       case 'multipleChoice':
         final options = questionChoices[questionNumber] ?? [];
         return DropdownButton<String>(
@@ -79,9 +77,8 @@ class _formPageState extends State<formPage> {
           items: options.map((opt) => DropdownMenuItem(value: opt, child: Text(opt))).toList(),
           onChanged: (val) => setState(() => _answers[questionNumber] = val!),
         );
-
-      case 'date':
-        return InkWell(
+        case 'date':
+          return InkWell(
           onTap: () async {
             final picked = await showDatePicker(
               context: context,
@@ -177,13 +174,16 @@ class _formPageState extends State<formPage> {
       });
     }
     final user = await ParseUser.currentUser() as ParseUser;
-    for(int i = 0; i < _questionsData.length; i++) {
-      final answerObject = ParseObject('answer')
-        ..set('questionID', ParseObject('question')..objectId = _questionsData[i].objectId)
-        ..set('username', user)
-        ..set('answer', _answers[i]);
-      final response = await answerObject.save();
-    }
+
+     for (int i = 0; i < _questionsData.length; i++) {
+       final answerObject = ParseObject('answer')
+         ..set('question', ParseObject('question')..objectId = _questionsData[i].objectId)
+         ..set('user', user)
+         ..set('answer', _answers[i] ?? '');
+       print('saving → q=${_questionsData[i].objectId} u=${user.objectId} a=${_answers[i]}');
+       await answerObject.save();
+     }
+
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => MainPage()),

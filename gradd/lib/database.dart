@@ -2,7 +2,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 
 class Back4app
 {
-  static const String _baseUrl = "https://parseapi.back4app.com/classes/";
+  static const String _classUrl = "https://parseapi.back4app.com/classes/";
 
   static Future<void> initializeParse() async //connect to our parse server running on back4app
   {

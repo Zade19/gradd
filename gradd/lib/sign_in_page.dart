@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gradd/main_page.dart';
 import 'package:gradd/form_page.dart';
 import 'package:gradd/sign_up_page.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
@@ -35,48 +34,37 @@ class SignInPageState extends State<SignInPage> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool rememberMe = false;
-  bool forgotpassword = false;
-  Future<void> _login() async {
-    final userNameOrEmail = usernameController.text.trim();
-    final password        = passwordController.text.trim();
 
-    if (userNameOrEmail.isEmpty || password.isEmpty) {
+  Future<void> _login() async
+  {
+    final username = usernameController.text.trim();
+    final password = passwordController.text.trim();
+    if (username.isEmpty || password.isEmpty) {
       _snack('Please enter both fields');
       return;
     }
-
-
-    String username = userNameOrEmail;
-    if (userNameOrEmail.contains('@')) {
-      final q = QueryBuilder<ParseUser>(ParseUser.forQuery())
-        ..whereEqualTo('email', userNameOrEmail);
-      final r = await q.query();
-      if (r.success && r.results != null && r.results!.isNotEmpty) {
-        username = (r.results!.first as ParseUser).username!;
-      } else {
-        _snack('No account found for that e-mail');
-        return;
-      }
-    }
-
-    final loginRes = await ParseUser(username, password, null).login();
-    if (!loginRes.success) {
-      _snack(loginRes.error?.message ?? 'Login failed');
+    final loginResp = await ParseUser(username, password, null).login();
+    if (!loginResp.success) {
+      _snack(loginResp.error?.message ?? 'Login failed.');
       return;
     }
+    final user = loginResp.result as ParseUser;
 
-    // ✅  logged-in → now run the “answer” query just like before
-    final signupQuery = QueryBuilder<ParseObject>(ParseObject('answer'))
-      ..whereEqualTo('username', ParseObject('_User')..objectId = loginRes.result.objectId);
 
-    final answerRes = await signupQuery.query();
+
+
 
     if (rememberMe) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString('loggedInUsername', username);
       await storage.write(key: 'password', value: password);
     }
-
+    final answerQuery = QueryBuilder<ParseObject>(ParseObject('answer'))
+      ..whereEqualTo('username', user)
+      ..setLimit(1);
+    final answerRes = await answerQuery.query();
+    print(answerRes.success);
+    print(answerRes.results);
     if (answerRes.success && answerRes.results != null) {
       Navigator.pushReplacementNamed(context, '/home');
     } else {
@@ -117,15 +105,6 @@ class SignInPageState extends State<SignInPage> {
                   onChanged: (bool? value) {
                     setState(() {
                       rememberMe = value ?? false;
-                    });
-                  },
-                ),
-                Text('Forgot password?'),
-                Checkbox(
-                  value: forgotpassword,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      forgotpassword = value ?? false;
                     });
                   },
                 ),
