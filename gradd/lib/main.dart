@@ -25,7 +25,7 @@ Future<void> main() async {
   if (user != null) {
     await user.logout();
   }
-  runApp(const MyApp());
+  //runApp(const MyApp());
   runApp(
       ChangeNotifierProvider(
           create: (_) => ThemeNotifier(),
@@ -47,7 +47,6 @@ class MyApp extends StatelessWidget {
       theme: buildAppTheme(),
       routes: {
         '/signup': (context) => SignUpPage(),
-        '/home': (context) => MainNavigator(),
         '/home': (context) => const RootNav(),
       },
     );
