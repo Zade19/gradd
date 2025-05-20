@@ -17,7 +17,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void initState() {
-    super.initState();                 // call parent first
+    super.initState();
     requestNotificationPermission();
     _loadUsername();
   }
@@ -53,7 +53,7 @@ class _MainPageState extends State<MainPage> {
             ),
             const SizedBox(height: 40),
 
-            // ── QRCE button ─────────────────────────────────────────────
+
             _bigButton(
               context,
               label: 'QRCE Portal',
@@ -65,7 +65,6 @@ class _MainPageState extends State<MainPage> {
 
             const SizedBox(height: 24),
 
-            // ── Tax button ──────────────────────────────────────────────
             _bigButton(
               context,
               label: 'Tax Calculator',
@@ -80,7 +79,6 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  /// helper to keep buttons consistent
   Widget _bigButton(BuildContext context,
       {required String label, required VoidCallback onTap}) =>
       SizedBox(

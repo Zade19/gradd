@@ -9,20 +9,32 @@ class SignUpPage extends StatefulWidget {
   SignUpPageState createState() => SignUpPageState();
   }
 class SignUpPageState extends State<SignUpPage> {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _middleNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _firstNameController.dispose();
+    _middleNameController.dispose();
+    _lastNameController.dispose();
+    super.dispose();
+  }
   Future<void> signup() async {
-    final username = usernameController.text.trim();
-    final email = emailController.text.trim();
-    final password = passwordController.text.trim();
-    final confirmPassword = confirmPasswordController.text.trim();
-    final firstName = firstNameController.text.trim();
-    final lastName = lastNameController.text.trim();
+    final username = _usernameController.text.trim();
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+    final firstName = _firstNameController.text.trim();
+    final middleName = _middleNameController.text.trim();
+    final lastName = _lastNameController.text.trim();
 
     if (username.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Username is required.")));
@@ -51,6 +63,7 @@ class SignUpPageState extends State<SignUpPage> {
 
     final user = ParseUser(username, password, email)
       ..set('firstName', firstName)
+      ..set('middleName', middleName)
       ..set('lastName', lastName)
       ..set('type', 'user');
 
@@ -89,28 +102,32 @@ class SignUpPageState extends State<SignUpPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-                controller: usernameController,
+                controller: _usernameController,
                 decoration: InputDecoration(labelText: 'Username')),
             SizedBox(height: 10),
             TextField(
-                controller: firstNameController,
+                controller: _firstNameController,
                 decoration: InputDecoration(labelText: 'First name')),
             SizedBox(height: 10),
             TextField(
-                controller: lastNameController,
+                controller: _middleNameController,
+                decoration: InputDecoration(labelText: 'Middle name')),
+            SizedBox(height: 10),
+            TextField(
+                controller: _lastNameController,
                 decoration: InputDecoration(labelText: 'Last name')),
             SizedBox(height: 10),
             TextField(
-                controller: emailController,
+                controller: _emailController,
                 decoration: InputDecoration(labelText: 'Email')),
             SizedBox(height: 10),
             TextField(
-                controller: passwordController,
+                controller: _passwordController,
                 decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true),
             SizedBox(height: 10),
             TextField(
-                controller: confirmPasswordController,
+                controller: _confirmPasswordController,
                 decoration: InputDecoration(labelText: 'Confirm Password'),
                 obscureText: true),
             SizedBox(height: 20),

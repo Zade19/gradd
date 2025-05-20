@@ -161,7 +161,7 @@ class _formPageState extends State<formPage> {
       _isLoading = true;
     });
 
-    // --- validation ----------------------------------------------------------
+
     for (int i = 0; i < _questionsData.length; i++) {
       if (_questionsData[i].get<bool>('requirment')! &&
           _answers[i] == null &&
@@ -198,9 +198,20 @@ class _formPageState extends State<formPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Please answer a few questions about yourself.'),
+        leading: IconButton(
+          padding: EdgeInsets.zero,
+          constraints: BoxConstraints.tightFor(width: 40, height: 20),
+          icon: Icon(Icons.arrow_back,),
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, '/home');
+          },
+        ),
+        title: Text(
+          'Please answer a few questions about yourself.',
+          style: TextStyle(fontSize: 15),
+        ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(8),
+          preferredSize: Size.fromHeight(4),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: ClipRRect(
@@ -220,9 +231,17 @@ class _formPageState extends State<formPage> {
           : Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          children: [
-            Expanded(
-              child: ListView.separated(
+            children: [
+        Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Text(
+          "Resubmissions of forms will cancel old ones.",
+          style: TextStyle(color: Colors.redAccent, fontSize: 14, fontWeight: FontWeight.w500),
+          textAlign: TextAlign.center,
+        ),
+      ),
+      Expanded(
+        child: ListView.separated(
                 itemCount: _currentQuestions.length,
                 separatorBuilder: (_, __) => SizedBox(height: 24),
                 itemBuilder: (context, index) {

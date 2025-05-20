@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:gradd/sign_in_page.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk_flutter.dart';
 import 'package:provider/provider.dart';
 import '../core/theme_notifier.dart';
 import 'profile_edit_page.dart';
@@ -6,7 +8,17 @@ import 'terms_page.dart';
 
 class PreferencesPage extends StatelessWidget {
   const PreferencesPage({super.key});
-
+  Future<void> _logout(BuildContext context) async {
+    final user = await ParseUser.currentUser();
+    if (user != null) {
+      await user.logout();
+    }
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (_) => const SignInPage()),
+          (route) => false,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     final themeNotifier = context.watch<ThemeNotifier>();
@@ -38,9 +50,22 @@ class PreferencesPage extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const TermsPage()),
             ),
           ),
+
           const Divider(height: 0),
 
-          _AppVersionTile(),
+        ListTile(
+        leading: const Icon(Icons.info_outline),
+        title: const Text('App version'),
+        subtitle: Text('1.0.0'),
+        ),
+
+          const Divider(height: 0),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Log out'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => _logout(context),
+          ),
         ],
       ),
     );
@@ -62,14 +87,4 @@ class _SectionHeader extends StatelessWidget {
   );
 }
 
-class _AppVersionTile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    const version = '1.0.0'; // keep static or fetch from package_info_plus
-    return ListTile(
-      leading: const Icon(Icons.info_outline),
-      title: const Text('App version'),
-      subtitle: Text(version),
-    );
-  }
-}
+
