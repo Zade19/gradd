@@ -12,7 +12,7 @@ class Back4app
     await Parse().initialize(
         appId, serverUrl, clientKey: clientKey, autoSendSessionId: true);
   }
-  static Future<void> installation(String token) async//create an installation object for this device and adn join the group all
+  static Future<void> installation(String token) async //create an installation object for this device and adn join the group all
   {
     final installation = await ParseInstallation.currentInstallation();
     installation.set<String>('deviceToken', token);
