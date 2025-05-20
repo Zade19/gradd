@@ -180,18 +180,15 @@ class _formPageState extends State<formPage> {
       }
     }
 
-    // --- save answers --------------------------------------------------------
     final user = await ParseUser.currentUser() as ParseUser;
     for (int i = 0; i < _questionsData.length; i++) {
       final answerObject = ParseObject('answer')
-        ..set('question',
-            ParseObject('question')..objectId = _questionsData[i].objectId)
-        ..set('user', user)
+        ..set('questionID', ParseObject('question')..objectId = _questionsData[i].objectId)
+        ..set('username', user)
         ..set('answer', _answers[i] ?? '');
       await answerObject.save();
     }
 
-    // --- DONE → go to the tab shell that owns the bottom bar ---------------
     Navigator.pushReplacementNamed(context, '/home');
   }
   @override
