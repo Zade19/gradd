@@ -24,7 +24,6 @@ class SignUpPageState extends State<SignUpPage> {
     final firstName = firstNameController.text.trim();
     final lastName = lastNameController.text.trim();
 
-    // Basic validation
     if (username.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Username is required.")));
       return;
