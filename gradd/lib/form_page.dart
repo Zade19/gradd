@@ -154,40 +154,45 @@ class _formPageState extends State<formPage> {
       setState(() => _currentPage--);
     }
   }
-   _submit() async {
-     if (_isSubmitting) return;
-     setState(() {
-       _isSubmitting = true;
-       _isLoading=true;
-     });
-     for(int i = 0; i < _questionsData.length; i++){
-      if(_questionsData[i].get<bool>('requirment')! && _answers[i]==null&&_images[i]==null){
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: Text('Please answer all required questions.'),
-          backgroundColor: Colors.red,
-        ));
+  Future<void> _submit() async {
+    if (_isSubmitting) return;
+    setState(() {
+      _isSubmitting = true;
+      _isLoading = true;
+    });
+
+    // --- validation ----------------------------------------------------------
+    for (int i = 0; i < _questionsData.length; i++) {
+      if (_questionsData[i].get<bool>('requirment')! &&
+          _answers[i] == null &&
+          _images[i] == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Please answer all required questions.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+        setState(() {
+          _isSubmitting = false;
+          _isLoading = false;
+        });
         return;
       }
-      setState(() {
-        _isSubmitting = false;
-        _isLoading =false;
-      });
     }
+
+    // --- save answers --------------------------------------------------------
     final user = await ParseUser.currentUser() as ParseUser;
+    for (int i = 0; i < _questionsData.length; i++) {
+      final answerObject = ParseObject('answer')
+        ..set('question',
+            ParseObject('question')..objectId = _questionsData[i].objectId)
+        ..set('user', user)
+        ..set('answer', _answers[i] ?? '');
+      await answerObject.save();
+    }
 
-     for (int i = 0; i < _questionsData.length; i++) {
-       final answerObject = ParseObject('answer')
-         ..set('question', ParseObject('question')..objectId = _questionsData[i].objectId)
-         ..set('user', user)
-         ..set('answer', _answers[i] ?? '');
-       print('saving → q=${_questionsData[i].objectId} u=${user.objectId} a=${_answers[i]}');
-       await answerObject.save();
-     }
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => MainPage()),
-    );
+    // --- DONE → go to the tab shell that owns the bottom bar ---------------
+    Navigator.pushReplacementNamed(context, '/home');
   }
   @override
   Widget build(BuildContext context) {

@@ -64,9 +64,10 @@ class SignUpPageState extends State<SignUpPage> {
         final user = ParseUser(username, password, null);
         final response = await user.login();
         Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => formPage(formType: 'signup',)),
-        );
+            context,
+            MaterialPageRoute(builder: (_) => formPage(formType: 'signup')),
+        );;
+
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Error: ${response.error?.message}")),
