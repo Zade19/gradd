@@ -47,3 +47,4 @@ flutter:
 
   assets:
     - assets/images/logo.png      # logo (also used as launcher icon)
+    - assets/legal/terms.txt

@@ -28,15 +28,6 @@ class PreferencesPage extends StatelessWidget {
           ),
           const Divider(height: 0),
 
-          const _SectionHeader('Display'),
-          SwitchListTile(
-            secondary: const Icon(Icons.dark_mode),
-            title: const Text('Dark mode'),
-            value: isDark,
-            onChanged: (_) => themeNotifier.toggle(),
-          ),
-          const Divider(height: 0),
-
           const _SectionHeader('Legal'),
           ListTile(
             leading: const Icon(Icons.description_outlined),

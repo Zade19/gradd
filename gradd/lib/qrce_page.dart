@@ -14,7 +14,7 @@ class QRCEPage extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             foregroundColor: Theme.of(context).colorScheme.onPrimary,
-            minimumSize: const Size(350, 250),              // width, height
+            minimumSize: const Size(370, 270),              // width, height
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(16),
             ),
